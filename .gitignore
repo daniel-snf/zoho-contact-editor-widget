@@ -1,0 +1,25 @@
+context-para-repo-nuevo
+
+# Dependencias de Node — se reinstalan con `npm install` dentro de contact_editor/
+contact_editor/node_modules/
+
+# Certificado self-signed que genera `zet init` — es específico de cada máquina,
+# no tiene valor real de seguridad (es local-dev-only) pero no corresponde versionarlo
+contact_editor/cert.pem
+contact_editor/key.pem
+
+# Log de debug de zet
+contact_editor/ZET-debug.log
+ZET-debug.log
+
+# Zip armado a mano para probar hosting Zoho del widget — artefacto de build,
+# no código fuente (ver decisiones-tecnicas.md, punto 8)
+#*.zip
+
+
+# El documento de evaluación del empleador no va en un repo público
+Case Study.pdf
+
+# Ruido de SO/editor
+.DS_Store
+Thumbs.db

@@ -1,0 +1,9 @@
+# Force binary handling regardless of platform/core.autocrlf settings —
+# prevents Git from rewriting line-ending-looking bytes inside these files
+# on checkout (the cause of a zip that works on one machine and fails to
+# upload to Zoho, "Cargue un archivo correcto", on another).
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pem binary

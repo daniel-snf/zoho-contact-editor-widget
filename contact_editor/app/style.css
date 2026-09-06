@@ -1,0 +1,407 @@
+:root {
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-soft: #eff4ff;
+  --text: #1f2430;
+  --text-muted: #6b7280;
+  --border: #e2e5ea;
+  --auto-bg: #f3f4f6;
+  --success: #16a34a;
+  --success-bg: #ecfdf3;
+  --error: #dc2626;
+  --error-bg: #fef2f2;
+  --radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The hidden attribute must always win over component display rules below */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 14px;
+  color: var(--text);
+  background: #f3f4f6;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Frames the widget as its own panel so it reads as an intentional
+   component instead of a flush, unstyled page — holds up whether the
+   surrounding CRM is in light or dark theme. */
+.card {
+  background: #fdfdfe;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.05), 0 8px 20px rgba(16, 24, 40, 0.07);
+  padding: 22px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.card-header h1 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  padding: 24px 0;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 16px;
+  margin-bottom: 24px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auto-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 1px 7px;
+  line-height: 1.5;
+  cursor: help;
+}
+
+.field-view {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+}
+
+.field-view:empty::before {
+  content: "—";
+  color: var(--text-muted);
+}
+
+.field-input {
+  display: none;
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field-input--auto {
+  background: var(--auto-bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Brief highlight when a postal-code lookup just filled these fields in,
+   so the auto-fill moment is visible instead of an instant, silent swap. */
+@keyframes autofill-flash {
+  0% { background-color: var(--accent-soft); }
+  100% { background-color: var(--auto-bg); }
+}
+
+.field-input--flash {
+  animation: autofill-flash 900ms ease-out;
+}
+
+.field-input--invalid {
+  border-color: var(--error);
+}
+
+.field-input--invalid:focus {
+  box-shadow: 0 0 0 3px var(--error-bg);
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 2px;
+}
+
+/* Edit mode toggles which representation is visible */
+.card.is-editing .field-view {
+  display: none;
+}
+
+.card.is-editing .field-input {
+  display: block;
+}
+
+/* Country combobox: a plain text input (.field-input, styled above) plus a
+   floating suggestion list — no framework, just enough to make searching
+   ~180 countries faster than scrolling a native <select>. */
+.combobox {
+  display: none;
+  position: relative;
+}
+
+.card.is-editing .combobox {
+  display: block;
+}
+
+.combobox .field-input {
+  padding-right: 28px;
+}
+
+/* Chevron hints that this text input opens a list, like a native <select> —
+   without it, an empty combobox just looks like a plain text field. */
+.combobox::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -6px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.combobox-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.14);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.combobox-option {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.combobox-option.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.address-section h2 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin: 0 0 16px;
+  padding-top: 18px;
+  padding-left: 10px;
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+
+/* Small accent tick instead of an icon — ties this section back to the
+   card's own top accent border without adding a decorative icon set. */
+.address-section h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 24px;
+  width: 3px;
+  height: 11px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.lookup-status {
+  margin: 6px 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  min-height: 16px;
+}
+
+.lookup-status.is-error {
+  color: var(--error);
+}
+
+.lookup-status.is-loading::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.btn-secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e0eaff;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: #f7f8fa;
+}
+
+.status-pill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-pill.is-saving {
+  background: var(--auto-bg);
+  color: var(--text-muted);
+}
+
+.status-pill.is-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.status-pill.is-error {
+  background: var(--error-bg);
+  color: var(--error);
+  border-radius: var(--radius);
+  max-width: 280px;
+  line-height: 1.35;
+  text-align: left;
+}
+
+/* Collapse to a single column if the related-list panel renders narrow */
+@media (max-width: 480px) {
+  .field-group,
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}

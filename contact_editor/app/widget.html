@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Editor</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="card" id="card">
+
+      <div class="card-header">
+        <h1>Contact details</h1>
+        <div class="header-actions">
+          <span id="statusPill" class="status-pill" hidden></span>
+          <button id="editBtn" class="btn btn-secondary" type="button">Edit</button>
+        </div>
+      </div>
+
+      <div id="loadingState" class="loading-state">
+        <div class="spinner"></div>
+        <span>Loading contact…</span>
+      </div>
+
+      <form id="contactForm" class="card-body" hidden>
+
+        <section class="field-group">
+          <div class="field">
+            <label for="firstName">First name</label>
+            <span class="field-view" data-view="firstName"></span>
+            <input class="field-input" type="text" id="firstName" name="firstName" disabled>
+            <span class="field-error" id="firstNameError" hidden></span>
+          </div>
+          <div class="field">
+            <label for="lastName">Last name</label>
+            <span class="field-view" data-view="lastName"></span>
+            <input class="field-input" type="text" id="lastName" name="lastName" disabled>
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <span class="field-view" data-view="phone"></span>
+            <input class="field-input" type="tel" id="phone" name="phone" disabled>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <span class="field-view" data-view="email"></span>
+            <input class="field-input" type="email" id="email" name="email" disabled>
+            <span class="field-error" id="emailError" hidden></span>
+          </div>
+        </section>
+
+        <section class="address-section">
+          <h2>Address</h2>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="street">Street address</label>
+              <span class="field-view" data-view="street"></span>
+              <input class="field-input" type="text" id="street" name="street" disabled placeholder="Entered manually">
+            </div>
+            <div class="field">
+              <label for="flatNumber">Flat / House No. / Building / Apartment Name</label>
+              <span class="field-view" data-view="flatNumber"></span>
+              <input class="field-input" type="text" id="flatNumber" name="flatNumber" disabled placeholder="Entered manually">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="zip">Postal code</label>
+              <span class="field-view" data-view="zip"></span>
+              <input class="field-input" type="text" id="zip" name="zip" disabled placeholder="e.g. 90210">
+              <p id="lookupStatus" class="lookup-status" hidden></p>
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <span class="field-view" data-view="countrySelectLabel"></span>
+              <div class="combobox" id="countryCombobox">
+                <input
+                  class="field-input"
+                  type="text"
+                  id="country"
+                  name="country"
+                  autocomplete="off"
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-autocomplete="list"
+                  aria-controls="countryListbox"
+                  disabled
+                  placeholder="Leave blank to auto-detect">
+                <ul class="combobox-list" id="countryListbox" role="listbox" hidden></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="city">
+                City
+                <span class="auto-badge" id="cityBadge" title="Auto-filled from the postal code.">auto</span>
+              </label>
+              <span class="field-view" data-view="city"></span>
+              <input class="field-input field-input--auto" type="text" id="city" name="city" readonly disabled placeholder="Fills in automatically">
+            </div>
+            <div class="field">
+              <label for="state">
+                State / Province
+                <span class="auto-badge" id="stateBadge" title="Auto-filled from the postal code.">auto</span>
+              </label>
+              <span class="field-view" data-view="state"></span>
+              <input class="field-input field-input--auto" type="text" id="state" name="state" readonly disabled placeholder="Fills in automatically">
+            </div>
+          </div>
+        </section>
+
+        <div class="card-footer" id="editFooter" hidden>
+          <button id="cancelBtn" class="btn btn-ghost" type="button">Cancel</button>
+          <button id="saveBtn" class="btn btn-primary" type="submit">Save changes</button>
+        </div>
+      </form>
+
+    </div>
+
+    <script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
