@@ -240,10 +240,10 @@ don't have.
   state to manage. This would matter less if the scoping above already narrows the list.
 - **Invest further in visual design**, likely by rebuilding the UI with a small component framework
   (React fits fine here — Zoho widgets are just an embedded web page, so nothing about the SDK
-  requires vanilla JS; it was the plain-HTML route that was chosen for this submission specifically
-  to avoid a build step under the time budget) paired with a proper component/design system instead
-  of hand-rolled CSS. That would buy more polished interaction details — transitions, a consistent
-  spacing/typography scale, richer states — for less custom code than maintaining that by hand.
+  requires vanilla JS; the plain-HTML route was chosen here to keep the widget dependency-free and
+  avoid a build step) paired with a proper component/design system instead of hand-rolled CSS. That
+  would buy more polished interaction details — transitions, a consistent spacing/typography scale,
+  richer states — for less custom code than maintaining that by hand.
 
 ## Assumptions
 
@@ -268,8 +268,8 @@ don't have.
 
 ## Tech stack
 
-Plain HTML/CSS/JS (`contact_editor/app/`), no framework or bundler — deliberate, given this was a
-first project with `zet` under a tight time budget: fewer moving parts that can break under time
-pressure. Communicates with Zoho CRM via the `ZohoEmbededAppSDK` (`postMessage` under the hood):
+Plain HTML/CSS/JS (`contact_editor/app/`), no framework or bundler — a deliberate choice to keep the
+widget dependency-free and easy to audit, with fewer moving parts that can break. Communicates with
+Zoho CRM via the `ZohoEmbededAppSDK` (`postMessage` under the hood):
 `ZOHO.embeddedApp.init()` for the handshake, `PageLoad` for the current record ID, and
 `ZOHO.CRM.API.getRecord`/`updateRecord` for reads and writes.
