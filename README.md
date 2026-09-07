@@ -107,7 +107,6 @@ for example
 top-level folder into the auto-generated Base URL itself, so the Index Page is resolved *relative
 to that already-computed Base URL*, not to the zip's root. Pointing Index Page at `/app/widget.html`
 duplicates the segment and 404s.
-
 ### 4. Add it to the Contact layout
 
 ![add-related](images_instructions/add-related-list.png)

@@ -769,11 +769,17 @@
       return;
     }
 
-    clearAddressResult(false);
+    // Unlocked (not just left "auto") even though a candidate was found: the
+    // candidate can itself be a false positive (two countries coincidentally
+    // sharing a postal code — see the Nigeria/Romania case in
+    // decisiones-tecnicas #16), so the user needs a way out that isn't
+    // "accept this guess" when the selected country was actually correct and
+    // these free sources just don't have this particular code on file.
+    clearAddressResult(true);
     var names = matches.map(function (c) { return c.name; }).join(", ");
     setLookupStatus(
       "This postal code doesn't match " + countryNameFromCode(selectedCountryCode)
-        + " — it looks like it could be " + names + ". Select the right one below.",
+        + " — it looks like it could be " + names + ". Select the right one below, or enter city and state manually.",
       "error"
     );
   }
@@ -802,22 +808,25 @@
 
         if (result.outcome === "ambiguous") {
           var matches = showCountrySuggestions(result.countries);
-          clearAddressResult(false);
+          // Same reasoning as offerCountryMismatch: these candidates can be a
+          // false-positive collision, so don't force a choice among them —
+          // unlock manual entry as well.
+          clearAddressResult(true);
           if (matches.length) {
             var names = matches.map(function (c) { return c.name; }).join(", ");
-            setLookupStatus("This postal code could be " + names + " — select the right one below.", "error");
+            setLookupStatus("This postal code could be " + names + " — select the right one below, or enter city and state manually.", "error");
           } else {
-            setLookupStatus("We couldn't identify a country for this postal code — select one to look up the address.", "error");
+            setLookupStatus("We couldn't identify a country for this postal code — select one, or enter city and state manually.", "error");
           }
           return;
         }
 
-        clearAddressResult(false);
-        setLookupStatus("We couldn't identify a country for this postal code — select one to look up the address.", "error");
+        clearAddressResult(true);
+        setLookupStatus("We couldn't identify a country for this postal code — select one, or enter city and state manually.", "error");
       })
       .catch(function () {
-        clearAddressResult(false);
-        setLookupStatus("We couldn't identify a country for this postal code — select one to look up the address.", "error");
+        clearAddressResult(true);
+        setLookupStatus("We couldn't identify a country for this postal code — select one, or enter city and state manually.", "error");
       });
   }
 
