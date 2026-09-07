@@ -9,7 +9,7 @@ using the [Zoho Extension Toolkit](https://www.npmjs.com/package/zoho-extension-
 
 ## Demo
 
-📹 [Screen recording (≤3 min)](<VIDEO_LINK_HERE>) — walkthrough of display, edit, and address lookup, including the auto-fill and manual-fallback paths.
+📹 [Screen recording (≤3 min)](https://youtu.be/nQIrGM4RlUE) — walkthrough of display, edit, and address lookup, including the auto-fill and manual-fallback paths.
 
 ## What it does
 
